@@ -27,8 +27,6 @@ public class Main extends PApplet {
         robot.setX(1);
         robot.setY(1);
 
-
-
     }
 
     /**
@@ -82,9 +80,11 @@ public class Main extends PApplet {
         println("pressed " + key + " " + keyCode);
 
         if (key == 'f' || key == 'F') {
-        robot.stepForward();
+            robot.stepForward();
+            background(209);
         } else if (key == 'l' || key == 'L') {
-        robot.rotateLeft();
+            robot.rotateLeft();
+            background(209);
         }
 
     }
