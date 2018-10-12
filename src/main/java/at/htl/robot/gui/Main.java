@@ -6,6 +6,11 @@ import processing.core.PApplet;
 
 public class Main extends PApplet {
 
+    int leftMargin = 50;
+    int upperMargin = 50;
+    int boxLength = 50;
+    Robot robot;
+
     // Hier die Member-Attribute eintragen
 
     public static void main(String[] args) {
@@ -18,6 +23,10 @@ public class Main extends PApplet {
 
     public void setup() {
         background(209); //https://processing.org/tutorials/color/
+        robot = new Robot();
+        robot.setX(1);
+        robot.setY(1);
+
 
 
     }
@@ -26,6 +35,24 @@ public class Main extends PApplet {
      * Diese Methode wird iterativ durchlaufen (wie loop() beim Arduino)
      */
     public void draw() {
+
+        strokeWeight(1.2f);
+
+        for (int i = 0; i < 11; i++) {
+            line(leftMargin, upperMargin + i * boxLength, leftMargin + 10 * boxLength, upperMargin + i * boxLength);
+            line(leftMargin + i * boxLength, upperMargin, leftMargin + i * boxLength, upperMargin + 10 * boxLength);
+        }
+
+        strokeWeight(1);
+
+        int boxCenterX = leftMargin + robot.getX() * boxLength - boxLength / 2;
+        int boxCenterY = upperMargin + robot.getY() * boxLength - boxLength / 2;
+
+        ellipse(boxCenterX,
+                boxCenterY,
+                (int) (boxLength * 0.8),
+                (int) (boxLength * 0.8));
+
 
     }
 
@@ -55,9 +82,9 @@ public class Main extends PApplet {
         println("pressed " + key + " " + keyCode);
 
         if (key == 'f' || key == 'F') {
-
+        robot.stepForward();
         } else if (key == 'l' || key == 'L') {
-
+        robot.rotateLeft();
         }
 
     }
