@@ -23,6 +23,7 @@ public class Main extends PApplet {
 
     public void setup() {
         background(209); //https://processing.org/tutorials/color/
+        frameRate(360);
         robot = new Robot();
         robot.setX(1);
         robot.setY(1);
@@ -34,12 +35,28 @@ public class Main extends PApplet {
      */
     public void draw() {
 
-        strokeWeight(1.2f);
+        drawTable();
+
+
+
+        drawRobot(robot);
+
+
+
+
+
+    }
+
+    private void drawTable() {
+        strokeWeight(1.1f);
 
         for (int i = 0; i < 11; i++) {
             line(leftMargin, upperMargin + i * boxLength, leftMargin + 10 * boxLength, upperMargin + i * boxLength);
             line(leftMargin + i * boxLength, upperMargin, leftMargin + i * boxLength, upperMargin + 10 * boxLength);
         }
+    }
+
+    public void drawRobot(Robot robot) {
 
         strokeWeight(1);
 
@@ -50,51 +67,31 @@ public class Main extends PApplet {
                 boxCenterY,
                 (int) (boxLength * 0.8),
                 (int) (boxLength * 0.8));
-
-
     }
 
-    /**
-     * Erstellen Sie eine eigene Methode, mittels der der Roboter am Bildschirm gezeichnet wird
-     * Die Angabe zu Position des Roboters am Spielfeld erhalten Sie aus dem Roboter-Objekt, welches
-     * als Parameter übergeben wird.
-     *
-     * @param robot Objekt des zu zeichnenden Roboters
-     */
-    public void drawRobot(Robot robot) {
-
-
-    }
-
-    /**
-     * Erstellen Sie eine eigene Methode zum Löschen des Bildschirms
-     */
-    public void deleteAll() {
-
-    }
-
-    /**
-     * In dieser Methode reagieren Sie auf die Tasten
-     */
     public void keyPressed() {
         println("pressed " + key + " " + keyCode);
 
         if (key == 'f' || key == 'F') {
             robot.stepForward();
+            System.out.println("X = " + robot.getX());
+            System.out.println("Y = " + robot.getY());
             background(209);
         } else if (key == 'l' || key == 'L') {
             robot.rotateLeft();
             background(209);
+        } else if (key == 'm' || key == 'M') {
+            robot.changeMode(robot.teleport);
         }
 
     }
 
-//    public void keyTyped() {
-//        println("typed " + key + " " + keyCode);
-//    }
-//
-//    public void keyReleased() {
-//        println("released " + key + " " + keyCode);
-//    }
+    public void keyTyped() {
+        println("typed " + key + " " + keyCode);
+    }
+
+    public void keyReleased() {
+        println("released " + key + " " + keyCode);
+    }
 
 }

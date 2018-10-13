@@ -1,15 +1,21 @@
 package at.htl.robot.model;
 
+import static at.htl.robot.model.Direction.*;
+
 public class Robot {
+    private int y = 1;
+    private int x = 1;
+    public Direction direction = Direction.SOUTH;
+    public boolean teleport = true;
 
+    public int getY() {
+        return y;
+    }
 
+    public void setY(int y) {
+        this.y = y;
+    }
 
-    private int x = 0;
-    private int y = 0;
-    private Direction direction = Direction.SOUTH;
-
-
-    //region Getter and Setter
     public int getX() {
         return x;
     }
@@ -18,57 +24,132 @@ public class Robot {
         this.x = x;
     }
 
-    public int getY() {
-        return y;
-    }
-
-    public void setY(int y) {
-
-        this.y = y;
-    }
-
-    public Direction getDirection() {
-        return direction;
-    }
-
-    public void setDirection(Direction direction) {
-        this.direction = direction;
-    }
-    //endregion
-
-
-    public void rotateLeft(){
-        if (this.direction == Direction.SOUTH) {
-            this.direction = Direction.EAST;
-
-        } else if (this.direction == Direction.EAST){
-            this.direction = Direction.NORTH;
-
-        } else if (this.direction == Direction.EAST){
-            this.direction = Direction.NORTH;
-
-        }else if(this.direction == Direction.EAST){
-            this.direction = Direction.NORTH;
-
-        }else if (this.direction == Direction.NORTH){
-            this.direction = Direction.WEST;
-
-        }else if (this.direction == Direction.WEST){
-            this.direction = Direction.SOUTH;
-        }
-
-    }
-
     public void stepForward() {
 
-        if (this.direction == Direction.SOUTH) {
-            this.y++;
-        } else if (this.direction == Direction.EAST) {
-            this.x++;
-        } else if (this.direction == Direction.NORTH) {
-            this.y--;
-        } else {
-            this.x--;
+        if (changeMode(teleport)){
+            //        region Teleport
+
+            if (getX() == 1 && getY() == 10 && this.direction == SOUTH) {
+                setY(0);
+            } else if (getX() == 1 && getY() == 1 && this.direction == NORTH) {
+                setY(11);
+            } else if (getX() == 10 && getY() == 10 && this.direction == SOUTH) {
+                setY(0);
+            } else if (getX() == 10 && getY() == 1 && this.direction == EAST) {
+                setX(0);
+            }
+
+            for (int i = 1; i <= 10; i++) {
+                if (getX() == 1 && getY() == i && this.direction == WEST) {
+                    setX(11);
+                } else if (getX() == 10 && getY() == i && this.direction == EAST) {
+                    setX(0);
+                }
+            }
+
+            for (int i = 1; i <= 10; i++) {
+                if (getY() == 1 && getX() == i && this.direction == NORTH) {
+                    setY(11);
+                } else if (getY() == 10 && getY() == i && this.direction == SOUTH) {
+                    setY(0);
+                }
+            }
+            switch (this.direction) {
+                case SOUTH:
+                    y++;
+                    break;
+                case NORTH:
+                    y--;
+                    break;
+                case EAST:
+                    x++;
+                    break;
+                case WEST:
+                    x--;
+                    break;
+            }
+//            endregion
+        } else if (!changeMode(teleport)){
+            //      region Restrict
+            if (wantAway()){
+                switch (this.direction) {
+                    case SOUTH:
+                        y++;
+                        break;
+                    case NORTH:
+                        y--;
+                        break;
+                    case EAST:
+                        x++;
+                        break;
+                    case WEST:
+                        x--;
+                        break;
+                }
+            } else {
+
+            }
+//              endregion
         }
+    }
+
+        public void rotateLeft() {
+            switch (this.direction) {
+                case SOUTH:
+                    this.direction = Direction.EAST;
+                    break;
+                case NORTH:
+                    this.direction = Direction.WEST;
+                    break;
+                case EAST:
+                    this.direction = NORTH;
+                    break;
+                case WEST:
+                    this.direction = Direction.SOUTH;
+                    break;
+            }
+        }
+
+    public boolean wantAway() {
+
+        boolean stepForwad = true;
+
+            if (getX() == 1 && getY() == 1 && (this.direction == NORTH || this.direction == WEST)) {
+                stepForwad = false;
+            } else if (getX() == 1 && getY() == 10 && (this.direction == NORTH || this.direction == NORTH)) {
+                stepForwad = false;
+            } else if (getX() == 10 && getY() == 10 && (this.direction == EAST || this.direction == SOUTH)) {
+                stepForwad = false;
+            } else if (getX() == 10 && getY() == 1 && (this.direction == NORTH || this.direction == EAST)) {
+                stepForwad = false;
+            }
+
+            for (int i = 1; i <= 10; i++) {
+                if (getX() == 1 && getY() == i && this.direction == WEST) {
+                    stepForwad = false;
+                } else if (getX() == 10 && getY() == i && this.direction == EAST) {
+                    stepForwad = false;
+                }
+            }
+
+            for (int i = 1; i <= 10; i++) {
+                if (getY() == 1 && getX() == i && this.direction == NORTH) {
+                    stepForwad = false;
+                } else if (getY() == 10 && getY() == i && this.direction == SOUTH) {
+                    stepForwad = false;
+                }
+            }
+
+        return stepForwad;
+        }
+
+    public boolean changeMode(boolean teleport) {
+
+     if (teleport){
+         teleport = false;
+     } else {
+         teleport = true;
+     }
+        return teleport;
     }
 }
