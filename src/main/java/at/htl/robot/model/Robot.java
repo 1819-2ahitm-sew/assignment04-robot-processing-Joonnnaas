@@ -26,74 +26,17 @@ public class Robot {
 
     public void stepForward() {
 
-        if (changeMode(teleport)){
-            //        region Teleport
-
-            if (getX() == 1 && getY() == 10 && this.direction == SOUTH) {
-                setY(0);
-            } else if (getX() == 1 && getY() == 1 && this.direction == NORTH) {
-                setY(11);
-            } else if (getX() == 10 && getY() == 10 && this.direction == SOUTH) {
-                setY(0);
-            } else if (getX() == 10 && getY() == 1 && this.direction == EAST) {
-                setX(0);
-            }
-
-            for (int i = 1; i <= 10; i++) {
-                if (getX() == 1 && getY() == i && this.direction == WEST) {
-                    setX(11);
-                } else if (getX() == 10 && getY() == i && this.direction == EAST) {
-                    setX(0);
+            if (!(changeMode(teleport))) {
+                teleport();
+                goForward();
+            } else if (changeMode(teleport)) {
+                if (wantAway()){
+                    goForward();
                 }
             }
-
-            for (int i = 1; i <= 10; i++) {
-                if (getY() == 1 && getX() == i && this.direction == NORTH) {
-                    setY(11);
-                } else if (getY() == 10 && getY() == i && this.direction == SOUTH) {
-                    setY(0);
-                }
-            }
-            switch (this.direction) {
-                case SOUTH:
-                    y++;
-                    break;
-                case NORTH:
-                    y--;
-                    break;
-                case EAST:
-                    x++;
-                    break;
-                case WEST:
-                    x--;
-                    break;
-            }
-//            endregion
-        } else if (!changeMode(teleport)){
-            //      region Restrict
-            if (wantAway()){
-                switch (this.direction) {
-                    case SOUTH:
-                        y++;
-                        break;
-                    case NORTH:
-                        y--;
-                        break;
-                    case EAST:
-                        x++;
-                        break;
-                    case WEST:
-                        x--;
-                        break;
-                }
-            } else {
-
-            }
-//              endregion
-        }
     }
 
-        public void rotateLeft() {
+    public void rotateLeft() {
             switch (this.direction) {
                 case SOUTH:
                     this.direction = Direction.EAST;
@@ -109,6 +52,52 @@ public class Robot {
                     break;
             }
         }
+
+    public void teleport() {
+
+        if (getX() == 1 && getY() == 10 && this.direction == SOUTH) {
+            setY(0);
+        } else if (getX() == 1 && getY() == 1 && this.direction == NORTH) {
+            setY(11);
+        } else if (getX() == 10 && getY() == 10 && this.direction == SOUTH) {
+            setY(0);
+        } else if (getX() == 10 && getY() == 1 && this.direction == EAST) {
+            setX(0);
+        }
+
+        for (int i = 1; i <= 10; i++) {
+            if (getX() == 1 && getY() == i && this.direction == WEST) {
+                setX(11);
+            } else if (getX() == 10 && getY() == i && this.direction == EAST) {
+                setX(0);
+            }
+        }
+
+        for (int i = 1; i <= 10; i++) {
+            if (getY() == 1 && getX() == i && this.direction == NORTH) {
+                setY(11);
+            } else if (getY() == 10 && getY() == i && this.direction == SOUTH) {
+                setY(0);
+            }
+        }
+    }
+
+    public void goForward() {
+        switch (this.direction) {
+            case SOUTH:
+                y++;
+                break;
+            case NORTH:
+                y--;
+                break;
+            case EAST:
+                x++;
+                break;
+            case WEST:
+                x--;
+                break;
+        }
+    }
 
     public boolean wantAway() {
 
@@ -147,7 +136,7 @@ public class Robot {
 
      if (teleport){
          teleport = false;
-     } else {
+     } else if (!teleport){
          teleport = true;
      }
         return teleport;

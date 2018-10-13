@@ -11,8 +11,6 @@ public class Main extends PApplet {
     int boxLength = 50;
     Robot robot;
 
-    // Hier die Member-Attribute eintragen
-
     public static void main(String[] args) {
         PApplet.main("at.htl.robot.gui.Main", args);
     }
@@ -30,20 +28,11 @@ public class Main extends PApplet {
 
     }
 
-    /**
-     * Diese Methode wird iterativ durchlaufen (wie loop() beim Arduino)
-     */
     public void draw() {
 
         drawTable();
 
-
-
         drawRobot(robot);
-
-
-
-
 
     }
 
@@ -63,10 +52,7 @@ public class Main extends PApplet {
         int boxCenterX = leftMargin + robot.getX() * boxLength - boxLength / 2;
         int boxCenterY = upperMargin + robot.getY() * boxLength - boxLength / 2;
 
-        ellipse(boxCenterX,
-                boxCenterY,
-                (int) (boxLength * 0.8),
-                (int) (boxLength * 0.8));
+        ellipse(boxCenterX, boxCenterY, (int) (boxLength * 0.8), (int) (boxLength * 0.8));
     }
 
     public void keyPressed() {
@@ -82,6 +68,7 @@ public class Main extends PApplet {
             background(209);
         } else if (key == 'm' || key == 'M') {
             robot.changeMode(robot.teleport);
+            System.out.println(robot.teleport);
         }
 
     }
