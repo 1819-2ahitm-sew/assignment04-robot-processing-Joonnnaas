@@ -21,7 +21,7 @@ public class Main extends PApplet {
 
     public void setup() {
         background(209); //https://processing.org/tutorials/color/
-        frameRate(360);
+        frameRate(120);
         robot = new Robot();
         robot.setX(1);
         robot.setY(1);
@@ -68,7 +68,7 @@ public class Main extends PApplet {
             background(209);
         } else if (key == 'm' || key == 'M') {
             robot.changeMode(robot.teleport);
-            System.out.println(robot.teleport);
+            System.out.println(robot.changeMode(robot.teleport));
         }
 
     }

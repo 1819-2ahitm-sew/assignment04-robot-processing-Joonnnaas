@@ -6,7 +6,7 @@ public class Robot {
     private int y = 1;
     private int x = 1;
     public Direction direction = Direction.SOUTH;
-    public boolean teleport = true;
+    public boolean teleport = false;
 
     public int getY() {
         return y;
