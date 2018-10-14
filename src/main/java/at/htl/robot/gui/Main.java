@@ -63,19 +63,19 @@ public class Main extends PApplet {
 
         ellipse(boxCenterX, boxCenterY, (int) (boxLength * 0.8), (int) (boxLength * 0.8));
 
-        drawRobotText();
+//        drawRobotText();
     }
 
-    private void drawRobotText() {
-
-        int boxCenterX = leftMargin + robot.getX() * boxLength - boxLength / 2;
-        int boxCenterY = upperMargin + robot.getY() * boxLength - boxLength / 2;
-
-        if (robot.teleport  && direction == Direction.SOUTH) {
-            rotate(180);
-            text("T", boxCenterX, boxCenterY);
-        }
-    }
+//    private void drawRobotText() {
+//
+//        int boxCenterX = leftMargin + robot.getX() * boxLength - boxLength / 2;
+//        int boxCenterY = upperMargin + robot.getY() * boxLength - boxLength / 2;
+//
+//        if (robot.teleport  && direction == Direction.SOUTH) {
+//            rotate(180);
+//            text("T", boxCenterX, boxCenterY);
+//        }
+//    }
 
     public void keyPressed() {
         println("pressed " + key + " " + keyCode);
