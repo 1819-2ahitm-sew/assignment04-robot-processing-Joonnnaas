@@ -1,15 +1,18 @@
 package at.htl.robot.gui;
 
+import at.htl.robot.model.Direction;
 import at.htl.robot.model.Robot;
 import processing.core.PApplet;
 
 
 public class Main extends PApplet {
 
-    int leftMargin = 50;
-    int upperMargin = 50;
-    int boxLength = 50;
-    Robot robot;
+    private Robot robot;
+    private Direction direction = Direction.SOUTH;
+
+    private int leftMargin = 50;
+    private int upperMargin = 50;
+    private int boxLength = 50;
 
     public static void main(String[] args) {
         PApplet.main("at.htl.robot.gui.Main", args);
@@ -25,14 +28,20 @@ public class Main extends PApplet {
         robot = new Robot();
         robot.setX(1);
         robot.setY(1);
-
     }
 
     public void draw() {
 
+        writeText();
+
         drawTable();
 
         drawRobot(robot);
+    }
+
+    private void writeText() {
+        textSize(20);
+        text("<f> stepForward       <l> rotateLeft       <m> changeMode", boxLength * 0.5f, boxLength * 0.6f);
 
     }
 
@@ -45,14 +54,27 @@ public class Main extends PApplet {
         }
     }
 
-    public void drawRobot(Robot robot) {
-
-        strokeWeight(1);
+    private void drawRobot(Robot robot) {
 
         int boxCenterX = leftMargin + robot.getX() * boxLength - boxLength / 2;
         int boxCenterY = upperMargin + robot.getY() * boxLength - boxLength / 2;
 
+        strokeWeight(1);
+
         ellipse(boxCenterX, boxCenterY, (int) (boxLength * 0.8), (int) (boxLength * 0.8));
+
+        drawRobotText();
+    }
+
+    private void drawRobotText() {
+
+        int boxCenterX = leftMargin + robot.getX() * boxLength - boxLength / 2;
+        int boxCenterY = upperMargin + robot.getY() * boxLength - boxLength / 2;
+
+        if (robot.teleport  && direction == Direction.SOUTH) {
+            rotate(180);
+            text("T", boxCenterX, boxCenterY);
+        }
     }
 
     public void keyPressed() {
@@ -67,8 +89,12 @@ public class Main extends PApplet {
             robot.rotateLeft();
             background(209);
         } else if (key == 'm' || key == 'M') {
-            robot.changeMode(robot.teleport);
-            System.out.println(robot.changeMode(robot.teleport));
+            if (robot.teleport){
+                robot.teleport = false;
+            } else if (!robot.teleport){
+                robot.teleport = true;
+            }
+            System.out.println(robot.teleport);
         }
 
     }

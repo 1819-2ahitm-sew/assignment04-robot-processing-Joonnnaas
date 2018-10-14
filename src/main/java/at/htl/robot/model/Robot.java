@@ -26,10 +26,10 @@ public class Robot {
 
     public void stepForward() {
 
-            if (!(changeMode(teleport))) {
+            if (teleport) {
                 teleport();
                 goForward();
-            } else if (changeMode(teleport)) {
+            } else if (!teleport) {
                 if (wantAway()){
                     goForward();
                 }
@@ -53,7 +53,7 @@ public class Robot {
             }
         }
 
-    public void teleport() {
+    private void teleport() {
 
         if (getX() == 1 && getY() == 10 && this.direction == SOUTH) {
             setY(0);
@@ -82,7 +82,7 @@ public class Robot {
         }
     }
 
-    public void goForward() {
+    private void goForward() {
         switch (this.direction) {
             case SOUTH:
                 y++;
@@ -99,7 +99,7 @@ public class Robot {
         }
     }
 
-    public boolean wantAway() {
+    private boolean wantAway() {
 
         boolean stepForwad = true;
 
@@ -132,13 +132,4 @@ public class Robot {
         return stepForwad;
         }
 
-    public boolean changeMode(boolean teleport) {
-
-     if (teleport){
-         teleport = false;
-     } else if (!teleport){
-         teleport = true;
-     }
-        return teleport;
-    }
 }
